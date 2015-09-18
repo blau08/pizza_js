@@ -15,16 +15,12 @@ Pizza.prototype.pizzaPrice = function() {
     price += 15;
   }
 
-  if (this.pizzaToppings == "Pepperoni") {
+  if (this.pizzaToppings == "Combo") {
     price += 1;
-  } else if (this.pizzaToppings == "Sausage") {
-    price += 1
-  } else if (this.pizzaToppings == "Pineapple") {
-    price += 1;
-  } else if (this.pizzaToppings == "Bacon") {
-    price += 1;
-  } else if (this.pizzaToppings == "Olives") {
-    price += 1;
+  } else if (this.pizzaToppings == "Pepperoni") {
+    price += 2;
+  } else if (this.pizzaToppings == "Vegetarian") {
+    price += 3;
   }
 
   if (this.pizzaQuantity <= 1) {
@@ -45,29 +41,25 @@ Pizza.prototype.pizzaPrice = function() {
 $(document).ready(function() {
 
   var pizzaSize = ["Small", "Medium", "Large"];
-  var pizzaToppings = ["Pepperoni", "Sausage", "Pineapple", "Bacon", "Olives"];
+  var pizzaToppings = ["Combo", "Pepperoni", "Vegetarian"];
   var pizzaQuantity = [1, 2, 3, 4, 5];
 
   pizzaSize.forEach(function(size) {
-    $("select#size-list").append("<option value='" + size + "'>" + size + "</option>");
+    $("select#size-list").append("<option value='" + size + "'><span class='chosen-size'>" + size + "</span></option>");
   });
 
   pizzaToppings.forEach(function(toppings) {
-    $("div#toppings-list").append("<label class='checkbox-inline'><input class='checkbox' name='interested' type='checkbox' value='" + toppings +"'>" + toppings + "" + "</label>");
+    $("select#toppings-list").append("<option value='" + toppings + "'><span class='chosen-toppings'>" + toppings + "</span></option>");
   });
 
   pizzaQuantity.forEach(function(quantity) {
-    $("select#quantity-list").append("<option value='" + quantity + "'>" + quantity + "</option>");
+    $("select#quantity-list").append("<option value='" + quantity + "'><span class='chosen-quantity'>" + quantity + "</span></option>");
   });
 
   $("form#user-info").submit(function(event) {
 
     var pizzaChoice = $("#size-list option:selected").text();
-    // var toppingsChoice = parseInt($("#toppings-list option:selected").val());
-    var toppingsChoice = $("input:checkbox[name=interested]:checked").each(function() {
-      ($(this).val());
-    });
-    debugger;
+    var toppingsChoice = $("#toppings-list option:selected").text();
     var quantityChoice = parseInt($("#quantity-list option:selected").val());
     userPizza = new Pizza(pizzaChoice, toppingsChoice, quantityChoice);
 

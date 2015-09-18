@@ -15,16 +15,16 @@ Pizza.prototype.pizzaPrice = function() {
     price += 15;
   }
 
-  if (this.pizzaToppings <= 1) {
+  if (this.pizzaToppings == "Pepperoni") {
     price += 1;
-  } else if (this.pizzaToppings <= 2) {
-    price += 2;
-  } else if (this.pizzaToppings <= 3) {
-    price += 3;
-  } else if (this.pizzaToppings <= 4) {
-    price += 4;
-  } else {
-    price += 5;
+  } else if (this.pizzaToppings == "Sausage") {
+    price += 1
+  } else if (this.pizzaToppings == "Pineapple") {
+    price += 1;
+  } else if (this.pizzaToppings == "Bacon") {
+    price += 1;
+  } else if (this.pizzaToppings == "Olives") {
+    price += 1;
   }
 
   if (this.pizzaQuantity <= 1) {
@@ -45,32 +45,37 @@ Pizza.prototype.pizzaPrice = function() {
 $(document).ready(function() {
 
   var pizzaSize = ["Small", "Medium", "Large"];
-  // var pizzaSize = {1: "Small", 2: "Medium", 3: "Large"};
-  var pizzaSize2 = [1, 2, 3];
-  var pizzaToppings = [1, 2, 3, 4, 5];
+  var pizzaToppings = ["Pepperoni", "Sausage", "Pineapple", "Bacon", "Olives"];
   var pizzaQuantity = [1, 2, 3, 4, 5];
 
   pizzaSize.forEach(function(size) {
-    $("select#size-list").append("<option value='" + size + "'><span class='chosen-size'>" + size + "</span></option>");
+    $("select#size-list").append("<option value='" + size + "'>" + size + "</option>");
   });
 
   pizzaToppings.forEach(function(toppings) {
-    $("select#toppings-list").append("<option value='" + toppings + "'><span class='chosen-toppings'>" + toppings + "</span></option>");
+    $("div#toppings-list").append("<label class='checkbox-inline'><input class='checkbox' name='interested' type='checkbox' value='" + toppings +"'>" + toppings + "" + "</label>");
   });
 
   pizzaQuantity.forEach(function(quantity) {
-    $("select#quantity-list").append("<option value='" + quantity + "'><span class='chosen-quantity'>" + quantity + ":00 PM" + "</span></option>");
+    $("select#quantity-list").append("<option value='" + quantity + "'>" + quantity + "</option>");
   });
 
   $("form#user-info").submit(function(event) {
 
     var pizzaChoice = $("#size-list option:selected").text();
-    var toppingsChoice = parseInt($("#toppings-list option:selected").val());
+    // var toppingsChoice = parseInt($("#toppings-list option:selected").val());
+    var toppingsChoice = $("input:checkbox[name=interested]:checked").each(function() {
+      ($(this).val());
+    });
+    debugger;
     var quantityChoice = parseInt($("#quantity-list option:selected").val());
     userPizza = new Pizza(pizzaChoice, toppingsChoice, quantityChoice);
 
     var userPrice = userPizza.pizzaPrice();
 
+    $(".sizeChoice").text(pizzaChoice);
+    $(".toppingsChoice").text(toppingsChoice);
+    $(".quantityChoice").text(quantityChoice);
     $(".pizza-price").text(userPrice);
 
     $("#result").show();
